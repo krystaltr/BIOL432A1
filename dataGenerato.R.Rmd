@@ -1,0 +1,45 @@
+---
+title: "BIOL432"
+output: html_document
+date: "2025-01-07"
+---
+#To create vector of species' names:
+```{r}
+species_names <- c("Species A", "Species B", "Species C", "Species D", "Species E")
+```
+
+#To randomly select 100 species' names:
+```{r}
+species <- sample(species_names, 100, replace = TRUE)
+```
+
+#To randomly generate limb width values, with the mean = 10, sd = 1
+```{r}
+limb_width <- abs(rnorm(100, mean = 10, sd = 1))
+```
+#To randomly generate limb length values, with the mean = 30, sd = 5
+```{r}
+limb_length <- abs(rnorm(100, mean = 30, sd = 5))
+```
+#To create vector of observers' names:
+```{r}
+observer_names <- c("Haha", "Hehe", "Hoho")
+```
+#To randomly select 100 observers' names:
+```{r}
+observer <- sample(observer_names, 100, replace = TRUE)
+```
+
+#To create a data frame for the table:
+```{r}
+measurements <- data.frame(Species = species,
+  Limb_Width = limb_width,
+  Limb_Length = limb_length,
+  Observer = observer)
+```
+
+#To export the table as csv file:
+```{r}
+write.csv(measurements, "measurements.csv", row.names = FALSE)
+```
+
