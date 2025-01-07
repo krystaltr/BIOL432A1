@@ -1,0 +1,109 @@
+---
+title: "A1_TRAN_20286689.1"
+output: html_document
+date: "2025-01-07"
+---
+
+#Load all the packages that use for the assignment
+
+```{r}
+library(dplyr)
+```
+
+```{r}
+library(ggplot2)
+```
+
+#Revise the data
+
+```{r}
+data <- read.csv("measurements.csv")
+```
+
+#Check for the data head
+
+```{r}
+head(data)
+```
+
+#To filter out the value that does not relate to the data
+
+```{r}
+data <- data %>%
+  filter(!grepl("<<<<<<<|=======|>>>>>>>", Species))
+```
+
+#Check for the data again
+
+```{r}
+print(data)
+```
+
+#To arrage the table
+
+```{r}
+data2 <- data %>%
+  arrange(Species, Observer, Volume)
+```
+
+#Check the new table head
+
+```{r}
+
+head(data2)
+```
+
+#To calculate the average volume of each species:
+
+```{r}
+averagevol <- data %>%
+  group_by(Species) %>%
+  summarise(Average_Volume = mean(Volume, na.rm = TRUE))
+```
+
+#To display the average volume of each species
+
+```{r}
+averagevol 
+```
+
+#To count the number of observations (i.e. rows) for each combination of species and observer
+
+```{r}
+obscount <- data %>%
+  group_by(Species, Observer) %>%
+  summarise(Count = n(), .groups = "drop")
+```
+
+#Display the table
+
+```{r}
+obscount
+```
+
+#Create a box plot comparing limb volume distributions for each species using ggplot:
+
+```{r}
+ggplot(data2, aes(x = Species, y = Volume)) +
+  geom_boxplot() +
+  xlab("Species") +
+  ylab("Limb's Volume") +
+  ggtitle("Distribution of limb volume by species") +
+  theme_minimal()
+```
+
+Figure 1: This box plot displays the limb volume distrubution across species. The boxes represent the interquartile range (IQR) with the horizontal line inside each box indicating the median limb volume. The x-axis represents limb volume, while the y-axis represents the species
+
+#Create a box plot comparing limb volume distributions for each species
+
+```{r}
+ggplot(data, aes(x = Volume)) +
+  geom_histogram(binwidth = 30, color = "blue") +
+  facet_wrap(~Species, scales = "free_y") +
+  xlab("Limb's Volume") +
+  ylab("Frequency") +
+  ggtitle("Frequency histograms of limb volume by species") +
+  theme_minimal()
+```
+
+Figure 2: This panel shows the frequency histograms of limb volumes for each species. Each panel represents a different species, showing the distribution of limb volumes. The x-axis represents limb volume, while the y-axis represents the frequency of observations.
