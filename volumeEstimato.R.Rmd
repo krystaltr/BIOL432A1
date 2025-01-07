@@ -1,0 +1,31 @@
+---
+title: "volumeEstimato.R"
+output: html_document
+date: "2025-01-07"
+---
+#To load the dplyr library
+```{r}
+library(dplyr)
+```
+
+#Create a function to caluclate the estimate volume
+#Equation will be Volume = pi * (Limb_Width / 2)^2 * Limb_Length, assuming the limb is a cylinder
+```{r}
+volume <- function(width, length) {pi * (width / 2)^2 * length}
+```
+
+#Read the measurements CSV file
+```{r}
+measurements <- read.csv("measurements.csv")
+```
+
+#To add a new column "Volume" into the table
+```{r}
+measurements <- measurements %>%
+  mutate(Volume = volume(Limb_Width, Limb_Length))
+```
+
+# Finally overwrite the original measurements.csv file with the updated data
+```{r}
+write.csv(measurements, "measurements.csv", row.names = FALSE)
+```
